@@ -1,199 +1,353 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PulseGrid — Real-time Monitoring</title>
-  <meta name="description" content="PulseGrid is a real-time service monitoring system built with Vix.cpp." />
-  <meta name="theme-color" content="#080b10" />
-  <link rel="icon" type="image/png" sizes="192x192" href="https://res.cloudinary.com/dwjbed2xb/image/upload/v1767987143/android-chrome-192x192_woo6gl.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/app.css?v=12" />
-</head>
-<body>
-
-<!-- Ambient background -->
-<div class="ambient" aria-hidden="true">
-  <div class="ambient__orb ambient__orb--1"></div>
-  <div class="ambient__orb ambient__orb--2"></div>
-  <div class="ambient__orb ambient__orb--3"></div>
-  <div class="ambient__grid"></div>
-</div>
-
-<div class="page-shell">
-
-  <!-- HEADER -->
-  <header class="site-header">
-    <div class="header-inner">
-      <div class="brand">
-        <div class="brand__logo">
-          <span class="brand__pulse" aria-hidden="true"></span>
-          PG
-        </div>
-        <div class="brand__info">
-          <span class="brand__built">Built with Vix.cpp</span>
-          <h1 class="brand__name">PulseGrid</h1>
-        </div>
-      </div>
-      <nav class="header-nav">
-        <a href="/docs" class="nav-link" target="_blank" rel="noopener">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
-          API Docs
-        </a>
-        <div class="version-chip" id="meta-version">
-          <span class="version-chip__dot"></span>
-          v?
-        </div>
-      </nav>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PulseGrid — Real-time Monitoring</title>
+    <meta
+      name="description"
+      content="PulseGrid is a real-time service monitoring system built with Vix.cpp."
+    />
+    <meta name="theme-color" content="#080b10" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="https://res.cloudinary.com/dwjbed2xb/image/upload/v1767987143/android-chrome-192x192_woo6gl.png"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/app.css?v=12" />
+  </head>
+  <body>
+    <!-- Ambient background -->
+    <div class="ambient" aria-hidden="true">
+      <div class="ambient__orb ambient__orb--1"></div>
+      <div class="ambient__orb ambient__orb--2"></div>
+      <div class="ambient__orb ambient__orb--3"></div>
+      <div class="ambient__grid"></div>
     </div>
-  </header>
 
-  <main class="main">
-
-    <!-- SUMMARY BAR -->
-    <section class="summary-section" aria-label="System summary">
-      <div class="summary-bar">
-        <div class="summary-bar__label">
-          <span class="summary-bar__eyebrow">Live overview</span>
-          <h2 class="summary-bar__title">System Status</h2>
+    <div class="page-shell">
+      <!-- HEADER -->
+      <header class="site-header">
+        <div class="header-inner">
+          <div class="brand">
+            <div class="brand__logo">
+              <span class="brand__pulse" aria-hidden="true"></span>
+              PG
+            </div>
+            <div class="brand__info">
+              <span class="brand__built">Built with Vix.cpp</span>
+              <h1 class="brand__name">PulseGrids</h1>
+            </div>
+          </div>
+          <nav class="header-nav">
+            <a href="/docs" class="nav-link" target="_blank" rel="noopener">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                />
+                <polyline points="14,2 14,8 20,8" />
+              </svg>
+              API Docs
+            </a>
+            <div class="version-chip" id="meta-version">
+              <span class="version-chip__dot"></span>
+              v?
+            </div>
+          </nav>
         </div>
-        <div class="summary-bar__stats">
-          <div class="stat-chip">
-            <span class="stat-chip__num" id="summary-total">—</span>
-            <span class="stat-chip__lbl">Total</span>
-          </div>
-          <div class="stat-chip stat-chip--up">
-            <span class="stat-chip__dot"></span>
-            <span class="stat-chip__num" id="summary-up">—</span>
-            <span class="stat-chip__lbl">Up</span>
-          </div>
-          <div class="stat-chip stat-chip--down">
-            <span class="stat-chip__dot"></span>
-            <span class="stat-chip__num" id="summary-down">—</span>
-            <span class="stat-chip__lbl">Down</span>
-          </div>
-          <div class="stat-chip stat-chip--degraded">
-            <span class="stat-chip__dot"></span>
-            <span class="stat-chip__num" id="summary-degraded">—</span>
-            <span class="stat-chip__lbl">Degraded</span>
-          </div>
-          <div class="stat-chip stat-chip--paused">
-            <span class="stat-chip__dot"></span>
-            <span class="stat-chip__num" id="summary-paused">—</span>
-            <span class="stat-chip__lbl">Paused</span>
-          </div>
-          <div class="stat-chip stat-chip--incident">
-            <span class="stat-chip__dot"></span>
-            <span class="stat-chip__num" id="summary-incidents">—</span>
-            <span class="stat-chip__lbl">Incidents</span>
-          </div>
-        </div>
-      </div>
-    </section>
+      </header>
 
-    <!-- LAYOUT -->
-    <div class="layout">
-
-      <!-- FORM PANEL -->
-      <aside class="panel panel--form" aria-labelledby="create-title">
-        <div class="panel__head">
-          <span class="panel__eyebrow">Add endpoint</span>
-          <h2 id="create-title" class="panel__title">New Monitor</h2>
-          <p class="panel__desc">Track uptime, latency, and incidents for any HTTP endpoint.</p>
-        </div>
-
-        <form id="create-monitor-form" class="mform" novalidate>
-          <div class="mform__row">
-            <div class="mfield">
-              <label class="mfield__label" for="monitor-name">Name</label>
-              <div class="mfield__wrap">
-                <svg class="mfield__icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                <input id="monitor-name" name="name" type="text" placeholder="Vix Health Check" maxlength="120" autocomplete="off" required />
+      <main class="main">
+        <!-- SUMMARY BAR -->
+        <section class="summary-section" aria-label="System summary">
+          <div class="summary-bar">
+            <div class="summary-bar__label">
+              <span class="summary-bar__eyebrow">Live overview</span>
+              <h2 class="summary-bar__title">System Status</h2>
+            </div>
+            <div class="summary-bar__stats">
+              <div class="stat-chip">
+                <span class="stat-chip__num" id="summary-total">—</span>
+                <span class="stat-chip__lbl">Total</span>
+              </div>
+              <div class="stat-chip stat-chip--up">
+                <span class="stat-chip__dot"></span>
+                <span class="stat-chip__num" id="summary-up">—</span>
+                <span class="stat-chip__lbl">Up</span>
+              </div>
+              <div class="stat-chip stat-chip--down">
+                <span class="stat-chip__dot"></span>
+                <span class="stat-chip__num" id="summary-down">—</span>
+                <span class="stat-chip__lbl">Down</span>
+              </div>
+              <div class="stat-chip stat-chip--degraded">
+                <span class="stat-chip__dot"></span>
+                <span class="stat-chip__num" id="summary-degraded">—</span>
+                <span class="stat-chip__lbl">Degraded</span>
+              </div>
+              <div class="stat-chip stat-chip--paused">
+                <span class="stat-chip__dot"></span>
+                <span class="stat-chip__num" id="summary-paused">—</span>
+                <span class="stat-chip__lbl">Paused</span>
+              </div>
+              <div class="stat-chip stat-chip--incident">
+                <span class="stat-chip__dot"></span>
+                <span class="stat-chip__num" id="summary-incidents">—</span>
+                <span class="stat-chip__lbl">Incidents</span>
               </div>
             </div>
-            <div class="mfield">
-              <label class="mfield__label" for="monitor-slug">Slug</label>
-              <div class="mfield__wrap">
-                <svg class="mfield__icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-                <input id="monitor-slug" name="slug" type="text" placeholder="vix-health" maxlength="120" pattern="[a-z0-9_-]+" autocomplete="off" spellcheck="false" required />
+          </div>
+        </section>
+
+        <!-- LAYOUT -->
+        <div class="layout">
+          <!-- FORM PANEL -->
+          <aside class="panel panel--form" aria-labelledby="create-title">
+            <div class="panel__head">
+              <span class="panel__eyebrow">Add endpoint</span>
+              <h2 id="create-title" class="panel__title">New Monitor</h2>
+              <p class="panel__desc">
+                Track uptime, latency, and incidents for any HTTP endpoint.
+              </p>
+            </div>
+
+            <form id="create-monitor-form" class="mform" novalidate>
+              <div class="mform__row">
+                <div class="mfield">
+                  <label class="mfield__label" for="monitor-name">Name</label>
+                  <div class="mfield__wrap">
+                    <svg
+                      class="mfield__icon"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <circle cx="12" cy="12" r="10" />
+                      <line x1="12" y1="8" x2="12" y2="12" />
+                      <line x1="12" y1="16" x2="12.01" y2="16" />
+                    </svg>
+                    <input
+                      id="monitor-name"
+                      name="name"
+                      type="text"
+                      placeholder="Vix Health Check"
+                      maxlength="120"
+                      autocomplete="off"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="mfield">
+                  <label class="mfield__label" for="monitor-slug">Slug</label>
+                  <div class="mfield__wrap">
+                    <svg
+                      class="mfield__icon"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"
+                      />
+                      <path
+                        d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"
+                      />
+                    </svg>
+                    <input
+                      id="monitor-slug"
+                      name="slug"
+                      type="text"
+                      placeholder="vix-health"
+                      maxlength="120"
+                      pattern="[a-z0-9_-]+"
+                      autocomplete="off"
+                      spellcheck="false"
+                      required
+                    />
+                  </div>
+                  <span class="mfield__hint">Lowercase, numbers, - or _</span>
+                </div>
               </div>
-              <span class="mfield__hint">Lowercase, numbers, - or _</span>
+
+              <div class="mfield mfield--full">
+                <label class="mfield__label" for="monitor-url"
+                  >Endpoint URL</label
+                >
+                <div class="mfield__wrap">
+                  <svg
+                    class="mfield__icon"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="2" y1="12" x2="22" y2="12" />
+                    <path
+                      d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+                    />
+                  </svg>
+                  <input
+                    id="monitor-url"
+                    name="url"
+                    type="url"
+                    placeholder="https://api.example.com/health"
+                    inputmode="url"
+                    autocomplete="off"
+                    spellcheck="false"
+                    required
+                  />
+                </div>
+                <span class="mfield__hint"
+                  >Must start with http:// or https://</span
+                >
+              </div>
+
+              <div class="mfield">
+                <label class="mfield__label" for="monitor-interval"
+                  >Interval (seconds)</label
+                >
+                <div class="mfield__wrap">
+                  <svg
+                    class="mfield__icon"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12 6 12 12 16 14" />
+                  </svg>
+                  <input
+                    id="monitor-interval"
+                    name="interval_seconds"
+                    type="number"
+                    min="15"
+                    max="3600"
+                    step="1"
+                    value="60"
+                    required
+                  />
+                </div>
+                <span class="mfield__hint">Range: 15 – 3600 s</span>
+              </div>
+
+              <div class="mform__footer">
+                <button class="btn btn--primary" type="submit">
+                  <svg
+                    width="15"
+                    height="15"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                  >
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                  </svg>
+                  Create Monitor
+                </button>
+                <div
+                  id="form-message"
+                  class="form-msg"
+                  aria-live="polite"
+                ></div>
+              </div>
+            </form>
+          </aside>
+
+          <!-- MONITORS PANEL -->
+          <section
+            class="panel panel--monitors"
+            aria-labelledby="monitors-title"
+          >
+            <div class="panel__head panel__head--row">
+              <div>
+                <span class="panel__eyebrow">Live endpoints</span>
+                <h2 id="monitors-title" class="panel__title">Monitors</h2>
+              </div>
+              <div class="ws-status" id="ws-status" aria-live="polite">
+                <span class="ws-status__dot"></span>
+                <span class="ws-status__label">Connecting…</span>
+              </div>
             </div>
-          </div>
 
-          <div class="mfield mfield--full">
-            <label class="mfield__label" for="monitor-url">Endpoint URL</label>
-            <div class="mfield__wrap">
-              <svg class="mfield__icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-              <input id="monitor-url" name="url" type="url" placeholder="https://api.example.com/health" inputmode="url" autocomplete="off" spellcheck="false" required />
+            <!-- Skeleton loader -->
+            <div
+              id="grid-skeleton"
+              class="mgrid mgrid--skeleton"
+              aria-hidden="true"
+            >
+              <div class="mskel"></div>
+              <div class="mskel"></div>
+              <div class="mskel"></div>
             </div>
-            <span class="mfield__hint">Must start with http:// or https://</span>
-          </div>
 
-          <div class="mfield">
-            <label class="mfield__label" for="monitor-interval">Interval (seconds)</label>
-            <div class="mfield__wrap">
-              <svg class="mfield__icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              <input id="monitor-interval" name="interval_seconds" type="number" min="15" max="3600" step="1" value="60" required />
-            </div>
-            <span class="mfield__hint">Range: 15 – 3600 s</span>
-          </div>
-
-          <div class="mform__footer">
-            <button class="btn btn--primary" type="submit">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              Create Monitor
-            </button>
-            <div id="form-message" class="form-msg" aria-live="polite"></div>
-          </div>
-        </form>
-      </aside>
-
-      <!-- MONITORS PANEL -->
-      <section class="panel panel--monitors" aria-labelledby="monitors-title">
-        <div class="panel__head panel__head--row">
-          <div>
-            <span class="panel__eyebrow">Live endpoints</span>
-            <h2 id="monitors-title" class="panel__title">Monitors</h2>
-          </div>
-          <div class="ws-status" id="ws-status" aria-live="polite">
-            <span class="ws-status__dot"></span>
-            <span class="ws-status__label">Connecting…</span>
-          </div>
+            <div id="grid" class="mgrid" aria-live="polite"></div>
+          </section>
         </div>
+      </main>
+    </div>
 
-        <!-- Skeleton loader -->
-        <div id="grid-skeleton" class="mgrid mgrid--skeleton" aria-hidden="true">
-          <div class="mskel"></div>
-          <div class="mskel"></div>
-          <div class="mskel"></div>
+    <!-- CONFIRM MODAL -->
+    <div
+      id="confirm-modal"
+      class="modal hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
+    >
+      <div class="modal__overlay"></div>
+      <div class="modal__box">
+        <div class="modal__icon" aria-hidden="true">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+            />
+            <line x1="12" y1="9" x2="12" y2="13" />
+            <line x1="12" y1="17" x2="12.01" y2="17" />
+          </svg>
         </div>
-
-        <div id="grid" class="mgrid" aria-live="polite"></div>
-      </section>
-
+        <h3 id="modal-title" class="modal__title">Confirm action</h3>
+        <p id="modal-message" class="modal__body">Are you sure?</p>
+        <div class="modal__actions">
+          <button id="modal-cancel" class="btn btn--ghost">Cancel</button>
+          <button id="modal-confirm" class="btn btn--danger">Delete</button>
+        </div>
+      </div>
     </div>
-  </main>
-</div>
 
-<!-- CONFIRM MODAL -->
-<div id="confirm-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-  <div class="modal__overlay"></div>
-  <div class="modal__box">
-    <div class="modal__icon" aria-hidden="true">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-    </div>
-    <h3 id="modal-title" class="modal__title">Confirm action</h3>
-    <p id="modal-message" class="modal__body">Are you sure?</p>
-    <div class="modal__actions">
-      <button id="modal-cancel" class="btn btn--ghost">Cancel</button>
-      <button id="modal-confirm" class="btn btn--danger">Delete</button>
-    </div>
-  </div>
-</div>
-
-<script type="module" src="/app.js?v=16"></script>
-</body>
+    <script type="module" src="/app.js?v=16"></script>
+  </body>
 </html>

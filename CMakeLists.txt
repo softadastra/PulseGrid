@@ -5,9 +5,11 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-if (UNIX)
-  list(PREPEND CMAKE_PREFIX_PATH "/usr/local")
-  list(APPEND CMAKE_IGNORE_PREFIX_PATH "$ENV{HOME}/.local")
+# ------------------------------------------------------
+# Vix SDK installation path
+# ------------------------------------------------------
+if (UNIX AND DEFINED ENV{HOME})
+  list(PREPEND CMAKE_PREFIX_PATH "$ENV{HOME}/.local")
 endif()
 
 option(VIX_LINK_STATIC "Static libstdc++/libgcc" OFF)
@@ -98,14 +100,6 @@ target_link_libraries(pulsegrid_core
   PUBLIC
     vix::vix
 )
-
-# Ajoute ici les libs Vix registry éventuelles si tu en utilises.
-# Exemple :
-# vix_link_optional_targets(pulsegrid_core
-#   cnerium::app
-#   cnerium::http
-#   cnerium::json
-# )
 
 if (MSVC)
   target_compile_options(pulsegrid_core PRIVATE /W4 /permissive-)
